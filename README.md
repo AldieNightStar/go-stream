@@ -58,3 +58,18 @@ arr := StreamFromArray(someArray)
     .Map(numbersMapper)
     .Collect(NewArrayCollector()).([]interface{})
 ```
+
+# Generators
+* Instead of iterate over array of values, it can iterate over the GENERATED data on the fly
+```go
+// Create generator which will generate: 0, 1000, 2000, 3000, 4000
+gen := NewGenerator(5, func(i int) interface{} {
+    return i * 1000
+})
+
+// It can be used in streams
+oddNumbers := NewStream(gen)
+    .Filter(onlyOddNumbers)
+    .Map(toString)
+    .Collect(NewArrayCollector()).([]interface{})
+```

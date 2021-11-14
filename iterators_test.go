@@ -36,3 +36,20 @@ func Test_ArrayIterator_Next(t *testing.T) {
 		t.Fatalf("Values should be 1, 2, 4, 10, nil")
 	}
 }
+
+func Test_Generator(t *testing.T) {
+	g := NewGenerator(3, func(i int) interface{} {
+		return i * 100
+	})
+
+	if !g.HasNext() {
+		t.Fatal("Generator too early says that it has no values")
+	}
+	v1 := g.Next()
+	v2 := g.Next()
+	v3 := g.Next()
+	v4 := g.Next()
+	if !(v1 == 0 && v2 == 100 && v3 == 200 && v4 == nil) {
+		t.Fatal("Generated numbers should be 0, 100, 200, nil")
+	}
+}

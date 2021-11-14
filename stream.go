@@ -19,8 +19,12 @@ type Stream struct {
 }
 
 func StreamFromArray(arr []interface{}) *Stream {
+	return NewStream(newArrayIterator(arr))
+}
+
+func NewStream(iter Iterable) *Stream {
 	return &Stream{
-		iter:        newArrayIterator(arr),
+		iter:        iter,
 		proccessors: make([]interface{}, 0, 8),
 	}
 }
