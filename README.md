@@ -1,7 +1,7 @@
 # Golang Streams
 
 * Inspired by Java8 streams
-* Has `Filter`, `Map`, `Collect` and `First`
+* Has `Filter`, `Map`, `Collect`, `First` and `ForEach`
     * `Filter` filters all values
     * `Map` maps values into another type
     * `Collect` or `First` collects the data and returns
