@@ -36,3 +36,25 @@ first := s.FirstOr(nil)
 // That function will get User.Id as an key for a map
 MAP := s.Collect(NewMapCollector(keyGetter)).(map[interface{}]interface{})
 ```
+
+## We can go compact
+
+```go
+// Let's assume we have: someArray[10, 20, 30, 40, 50, 60, 70]
+
+arr := StreamFromArray(someArray)
+    .Fiter(func (data interface{}) bool {
+        return data.(int) < 30
+    })
+    .Map(func (data interface{}) interface{} {
+        return data.(int) / 10
+    })
+    .Collect(NewArrayCollector()).([]interface{})
+```
+* Or even better
+```go
+arr := StreamFromArray(someArray)
+    .Filter(numbersFilter)
+    .Map(numbersMapper)
+    .Collect(NewArrayCollector()).([]interface{})
+```
