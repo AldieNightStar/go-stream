@@ -92,3 +92,25 @@ users := StreamFromChannel(requestsChannel)
     .Map(JsonToUserProfile)
     .Collect(NewMapCollector(ByUserId)).(map[interface{}]interface{})
 ```
+
+# ForEach operation
+```go
+// Let's assume we have: someArray[1, 2, 3, 4, 5]
+
+StreamFromArray(someArray)
+    .Filter(isOdd)
+    .ForEach(func (data interface{}) {
+        println(data) // Will print only odd numbers
+    })
+```
+```go
+// Let's assume that we have an requestsChannel
+// It will have requests data with user profiles
+
+StreamFromChannel(requestsChannel)
+    .Filter(onlyApiURLs)
+    .Map(GetRequestBody)
+    .Map(JsonToUserProfile)
+    .Filter(OnlyBannedUsers)
+    .ForEach(LogToJsonFile)
+```
