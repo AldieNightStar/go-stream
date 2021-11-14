@@ -61,3 +61,39 @@ func NewGenerator(count int, gen GeneratorFunc) *Generator {
 		gen: gen,
 	}
 }
+
+// =======================
+// Channel iterator
+// =======================
+
+type chanIterator struct {
+	ch  chan interface{}
+	val interface{}
+}
+
+func (c *chanIterator) HasNext() bool {
+	if c.val == nil {
+		elem, ok := <-c.ch
+		if ok {
+			c.val = elem
+		} else {
+			c.val = nil
+		}
+	}
+	return c.val != nil
+}
+
+func (c *chanIterator) Next() interface{} {
+	if !c.HasNext() {
+		return nil
+	}
+	elem := c.val
+	c.val = nil
+	return elem
+}
+
+func newChanIterator(c chan interface{}) *chanIterator {
+	return &chanIterator{
+		ch: c,
+	}
+}

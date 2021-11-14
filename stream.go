@@ -29,6 +29,10 @@ func NewStream(iter Iterable) *Stream {
 	}
 }
 
+func StreamFromChannel(c chan interface{}) *Stream {
+	return NewStream(newChanIterator(c))
+}
+
 func (s *Stream) Map(m MapperFunc) *Stream {
 	s.proccessors = append(s.proccessors, m)
 	return s

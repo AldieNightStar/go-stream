@@ -53,3 +53,21 @@ func Test_Generator(t *testing.T) {
 		t.Fatal("Generated numbers should be 0, 100, 200, nil")
 	}
 }
+
+func Test_ChanIterator(t *testing.T) {
+	ch := make(chan interface{}, 32)
+	go func() {
+		ch <- 10
+		ch <- 20
+		ch <- 30
+		close(ch)
+	}()
+	c := newChanIterator(ch)
+
+	if !c.HasNext() {
+		t.Fatal("HasNext == false at start, but shoud be a true")
+	}
+	if !(c.Next() == 10 && c.Next() == 20 && c.Next() == 30 && c.Next() == nil) {
+		t.Fatal("Data should be : 10, 20, 30, nil")
+	}
+}

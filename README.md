@@ -73,3 +73,15 @@ oddNumbers := NewStream(gen)
     .Map(toString)
     .Collect(NewArrayCollector()).([]interface{})
 ```
+
+# Listen to a channel `chan interface{}`
+```go
+// Let's assume that we have an requestsChannel
+// It will have requests data with user profiles
+
+users := StreamFromChannel(requestsChannel)
+    .Filter(onlyApiURLs)
+    .Map(GetRequestBody)
+    .Map(JsonToUserProfile)
+    .Collect(NewMapCollector(ByUserId)).(map[interface{}]interface{})
+```
