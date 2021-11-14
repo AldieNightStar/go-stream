@@ -89,3 +89,27 @@ func Test_Stream_First(t *testing.T) {
 		t.Fatal("First value should be 100, but ", val)
 	}
 }
+
+func Test_Stream_ForEach(t *testing.T) {
+	s := StreamFromArray([]interface{}{
+		10, 5000, 30, 100,
+	})
+
+	s.Filter(func(data interface{}) bool {
+		return data.(int) <= 100
+	})
+
+	s.Map(func(data interface{}) interface{} {
+		return data.(int) / 10
+	})
+
+	num := 0
+
+	s.ForEach(func(data interface{}) {
+		num += data.(int)
+	})
+
+	if num != 14 {
+		t.Fatal("Number should be 14, but ", num)
+	}
+}

@@ -5,6 +5,13 @@
     * `Filter` filters all values
     * `Map` maps values into another type
     * `Collect` or `First` collects the data and returns
+* Iterators:
+    * Array iterator
+    * Channel iterator
+    * Generator
+* Benefits
+    * No need to write a lot of `for`'s
+    * All logic is `stream.Filter(*).Map(*).Filter(*).Collect(*)`
 
 # Stream
 ```go

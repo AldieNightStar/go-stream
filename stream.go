@@ -12,6 +12,7 @@ type Collectable interface {
 
 type MapperFunc func(data interface{}) interface{}
 type FilterFunc func(data interface{}) bool
+type ForEachFunc func(data interface{})
 
 type Stream struct {
 	iter        Iterable
@@ -66,6 +67,16 @@ func (s *Stream) Collect(c Collectable) interface{} {
 		}
 	}
 	return c.Result()
+}
+
+func (s *Stream) ForEach(f ForEachFunc) {
+	for s.iter.HasNext() {
+		elem := s.iter.Next()
+		elem, passOk := passViaProcessors(elem, s.proccessors)
+		if passOk {
+			f(elem)
+		}
+	}
 }
 
 func passViaProcessors(elem interface{}, procs []interface{}) (interface{}, bool) {
